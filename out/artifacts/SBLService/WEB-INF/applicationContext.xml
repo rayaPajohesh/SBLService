@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd" >
+<beans>
+
+  <bean id="dataSourceOracle"
+		class="com.iac.ambit.utils.SecureDriverManagerDataSource"
+		destroy-method="close">		
+		<property name="driverClassName">
+			<value>oracle.jdbc.driver.OracleDriver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:oracle:thin:@172.17.18.29:1521:sabadvp</value>
+		</property>
+		<property name="username">
+			<value>tej_cms</value>
+		</property>
+		<property name="password">
+			<value>50614B7BBDFACB9CDAAE456F48C814E8</value>
+		</property>
+		<property name="initialSize">
+			<value>5</value>
+		</property>
+		<property name="maxActive">
+			<value>10</value>
+		</property>
+		<property name="maxIdle">
+			<value>5</value>
+		</property>
+		<property name="minIdle">
+			<value>5</value>
+		</property>
+		<property name="maxWait">
+			<value>60000</value>
+		</property>
+		<property name="validationQuery">
+			<value>
+				Select * from SBL_PERMISSIONS where PERMISSION_TITLE =
+				'Home'
+			</value>
+		</property> 
+		<property name="testWhileIdle">
+			<value>true</value>
+		</property>
+		<property name="timeBetweenEvictionRunsMillis">
+			<value>15000</value>
+		</property>
+		<property name="numTestsPerEvictionRun">
+			<value>3</value>
+		</property>
+		<property name="testOnBorrow">
+			<value>false</value>
+		</property>
+	</bean>
+	<bean id="dataSourceSql"
+		class="com.iac.ambit.utils.SecureDriverManagerDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>com.microsoft.sqlserver.jdbc.SQLServerDriver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:sqlserver://172.17.18.108;databaseName=tempsbldb;sendStringParametersAsUnicode=true</value>
+		</property>
+		<property name="username">
+			<value>sa</value>
+		</property>
+		<property name="password">
+			<value>C40893E8BFBDD3761EAE8277234C361F</value>
+		</property>
+		<property name="initialSize">
+			<value>5</value>
+		</property>
+		<property name="maxActive">
+			<value>10</value>
+		</property>
+		<property name="maxIdle">
+			<value>5</value>
+		</property>
+		<property name="minIdle">
+			<value>5</value>
+		</property>
+		<property name="maxWait">
+			<value>60000</value>
+		</property>
+		<property name="validationQuery">
+			<value>
+				Select * from SBL_PERMISSIONS where PERMISSION_TITLE =
+				'Home'
+			</value>
+		</property>
+		<property name="testWhileIdle">
+			<value>true</value>
+		</property>
+		<property name="timeBetweenEvictionRunsMillis">
+			<value>15000</value>
+		</property>
+		<property name="numTestsPerEvictionRun">
+			<value>3</value>
+		</property>
+		<property name="testOnBorrow">
+			<value>false</value>
+		</property>
+	</bean>
+	<!-- Utils layer -->
+	<bean id="DateFarsi" class="com.iac.ambit.utils.DateFarsi">
+
+	</bean>
+	<bean id="Config" class="com.iac.ambit.utils.Config">
+
+	</bean>
+
+
+	<!--  Database Layer -->
+
+	<bean id="JDBCTemplate"
+		class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg index="0">
+			<ref bean="dataSourceOracle" />
+		</constructor-arg>
+	</bean>
+
+
+	<!-- Data access layer -->
+
+	<bean id="activityLogDAO"
+		class="com.iac.ambit.DAO.ActivityLogDAOJDBCImpl">
+		<property name="template">
+			<ref bean="JDBCTemplate" />
+		</property>
+	</bean>
+
+	<bean id="customerDAO" class="com.iac.ambit.DAO.CustomerDAOImpl">
+		<property name="template">
+			<ref bean="JDBCTemplate" />
+		</property>
+	</bean>
+
+		
+	<bean id="tranDAO" class="com.iac.ambit.DAO.TransactionLogDAOImpl">
+		<property name="template">
+			<ref bean="JDBCTemplate" />
+		</property>
+	</bean>
+
+  <bean id="cardInfoDAO" class="com.iac.ambit.DAO.CardInfoDAOImpl">
+		<property name="template">
+			<ref bean="JDBCTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="groupDAO" class="com.iac.ambit.DAO.GroupDAOImpl">
+		<property name="template">
+			<ref bean="JDBCTemplate" />
+		</property>
+		
+	</bean>
+
+	<bean id="sysPermissionDAO"
+		class="com.iac.ambit.DAO.SysPermissionDAOJdbcImpl">
+		<property name="template">
+			<ref bean="JDBCTemplate" />
+		</property>
+	</bean>
+			
+	<bean id="blackListDAO" class="com.iac.ambit.DAO.BlackListDAOImpl">
+		<property name="template">
+			<ref bean="JDBCTemplate" />
+		</property>
+		
+		<property name="cardInfoService">
+			<ref bean="cardInfoService" />
+		</property>
+		
+	</bean>
+	
+	<bean id="blackReasonDAO" class="com.iac.ambit.DAO.BlackedReasonDAOImpl">
+		<property name="template">
+			<ref bean="JDBCTemplate" />
+		</property>
+	</bean>
+	
+	<bean id="codeActiveFlagDAO" class="com.iac.ambit.DAO.CodeActiveFlagDAOImpl">
+		<property name="template">
+			<ref bean="JDBCTemplate" />
+		</property>
+	</bean>
+	
+	<!-- Service layer -->
+	<bean id="springWSEndpoint"
+		class="com.iac.ambit.webservice.SpringWSEndPoint">
+
+	</bean>
+	<bean id="activityLogService"
+		class="com.iac.ambit.service.ActivityLogServiceImpl">
+		<property name="activityLogDAO">
+			<ref bean="activityLogDAO" />
+		</property>
+	</bean>
+	<bean id="customerService"
+		class="com.iac.ambit.service.CustomerServiceImpl">
+		<property name="customerDAO">
+			<ref bean="customerDAO" />
+		</property>
+
+	</bean>
+	<bean id="groupService"
+		class="com.iac.ambit.service.GroupServiceImpl">
+		<property name="groupDAO">
+			<ref bean="groupDAO" />
+		</property>
+
+	</bean>
+	
+	<bean id="transactionLogService"
+		class="com.iac.ambit.service.TransactionLogServiceImpl">
+		<property name="tranDAO">
+			<ref bean="tranDAO" />
+		</property>
+
+	</bean>
+	
+	<bean id="cardInfoService"
+		class="com.iac.ambit.service.CardInfoServiceImpl">
+		<property name="cardInfoDAO">
+			<ref bean="cardInfoDAO" />
+		</property>
+	</bean>
+	
+	<bean id="webServiceMethods"
+		class="com.iac.ambit.webservice.WebServiceMethodsImpl">
+
+		<property name="sysPermissionService">
+			<ref bean="sysPermissionService" />
+		</property>
+		<property name="customerService">
+			<ref bean="customerService" />
+		</property>
+		<property name="activityLogService">
+			<ref bean="activityLogService" />
+		</property>
+		<property name="groupService">
+			<ref bean="groupService" />
+		</property>
+			
+		<property name="blackListService">
+			<ref bean="blackListService" />
+		</property>
+		
+		<property name="transactionLogService">
+			<ref bean="transactionLogService" />
+		</property>
+		
+       <property name="cardInfoService">
+			<ref bean="cardInfoService" />
+		</property>
+		
+		<property name="blackReasonService">
+			<ref bean="blackReasonService" />
+		</property>
+		
+		<property name="codeActiveFlagService">
+			<ref bean="codeActiveFlagService" />
+		</property>
+		
+	</bean>
+
+
+	<bean id="sysPermissionService"
+		class="com.iac.ambit.service.SysPermissionServiceImpl">
+		<property name="sysPermissionDAO">
+			<ref bean="sysPermissionDAO" />
+		</property>
+	</bean>
+
+	<bean id="blackListService"
+		class="com.iac.ambit.service.BlackListServiceImpl">
+		<property name="blackListDAO">
+			<ref bean="blackListDAO" />
+		</property>
+	</bean>
+	
+	<bean id="blackReasonService"
+		class="com.iac.ambit.service.BlackedReasonServiceImpl">
+		<property name="blackReasonDAO">
+			<ref bean="blackReasonDAO" />
+		</property>
+	</bean>
+	
+	<bean id="codeActiveFlagService"
+		class="com.iac.ambit.service.CodeActiveFlagServiceImpl">
+		<property name="codeActiveFlagDAO">
+			<ref bean="codeActiveFlagDAO" />
+		</property>
+	</bean>
+	
+</beans>
+

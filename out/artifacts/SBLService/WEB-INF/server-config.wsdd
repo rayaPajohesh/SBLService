@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+<globalConfiguration> 
+<parameter name="adminPassword" value="1f95338c78aa8554fb2b66fe5bb1b41dbbbd7ae3" /> 
+<parameter name="sendXsiTypes" value="true" /> 
+<parameter name="sendMultiRefs" value="true" /> 
+<parameter name="sendXMLDeclaration" value="true" /> 
+<parameter name="axis.sendMinimizedElements" value="true" /> 
+<requestFlow> 
+<handler type="log"/>	  
+<handler type="java:org.apache.axis.handlers.JWSHandler">     
+<parameter name="scope" value="session" />   
+</handler>   
+<handler type="java:org.apache.axis.handlers.JWSHandler">     
+<parameter name="scope" value="request" />     
+<parameter name="extension" value=".jwr" />   
+</handler> </requestFlow>
+<responseFlow>							
+      <handler type="log"/>							   
+</responseFlow>
+</globalConfiguration>
+<handler name="log" type="java:com.iac.ambit.utils.LogHandler">		 
+      <parameter name="LogHandler.fileName" value="D:\\apache-tomcat-5.5.23\\apache-tomcat-5.5.23\\logs\\Http-Server.log"/>
+</handler>
+<handler name="Authenticate" type="java:org.apache.axis.handlers.SimpleAuthenticationHandler" />
+<handler name="LocalResponder" type="java:org.apache.axis.transport.local.LocalResponder" />
+<handler name="URLMapper" type="java:org.apache.axis.handlers.http.URLMapper" />
+<service name="AdminService" provider="java:MSG"> 
+<parameter name="allowedMethods" value="AdminService" /> 
+<parameter name="enableRemoteAdmin" value="false" /> 
+<parameter name="className" value="org.apache.axis.utils.Admin" /> 
+<namespace>http://xml.apache.org/axis/wsdd/</namespace>
+</service><service name="SpringWS" provider="java:RPC"> 
+<operation name="getAllPermissions">
+<parameter name="statusPermissions" mode="IN"/>
+<parameter name="allPermission" mode="OUT"/>
+</operation>
+
+<operation name="getAllActivity">
+<parameter name="allActivity" mode="OUT"/>
+</operation>
+ 
+<operation name="getCustomerSysPermissionsIds">
+<parameter name="UserId" mode="IN"/>
+<parameter name="permissionIdList" mode="OUT"/>
+</operation> 
+
+<operation name="loadSysPermissionURIs">
+<parameter name="sysPermissionURI" mode="OUT"/>
+</operation> 
+
+<operation name="isPermissionAvailableToCustomer">
+<parameter name="UserId" mode="IN"/>
+<parameter name="permissionName" mode="IN"/>
+<parameter name="isPermissionAvailable" mode="OUT"/>
+</operation>
+
+<operation name="customerAuthenticate">
+<parameter name="userId" mode="IN"/>
+<parameter name="userPassword" mode="IN"/>
+<parameter name="userInfo" mode="OUT"/>
+</operation>
+
+<operation name="activationPermission">
+<parameter name="permissionId" mode="IN"/>
+</operation>
+
+<operation name="getLastLoginDate">
+<parameter name="UserId" mode="IN"/>
+<parameter name="isSuccess" mode="IN"/>
+<parameter name="lastLoginDate" mode="OUT"/>
+</operation>
+
+<operation name="logLoginActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logLogoutActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logPermissionActivationActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logUserAggregateActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logUserActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logChangePasswordActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logBlackListTransReportActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logSearchPanInformationActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logGetTransForMonitoringActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logChangeRefreshIntervalInSecActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logChangeAlertInfoActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+ 
+<operation name="logAddGroupActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logUpdateGroupActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logViewGroupActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logAddUserActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logUpdateUserActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logViewUserActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logUpdateBlackListForLimitationCardActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+
+<operation name="logSearchBlackListActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logAddInBlackListActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logEditBlackListActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="logDeleteFromBlackListActivity">
+<parameter name="userId" mode="IN"/>
+<parameter name="activityDesc" mode="IN"/>
+</operation>
+
+<operation name="addGroup">
+<parameter name="newGroup" mode="IN"/>
+<parameter name="groupPermissions" mode="IN"/>
+</operation>
+
+<operation name="updateGroup">
+<parameter name="newGroup" mode="IN"/>
+<parameter name="groupPermissions" mode="IN"/>
+
+</operation>
+
+<operation name="getAllGroups">
+<parameter name="statusGroups" mode="IN"/>
+<parameter name="allGroups" mode="OUT"/>
+</operation>
+
+<operation name="getGroupDetail">
+<parameter name="groupId" mode="IN"/>
+<parameter name="group" mode="OUT"/>
+<parameter name="allPermission" mode="OUT"/>
+</operation>
+
+<operation name="addUser">
+<parameter name="newUser" mode="IN"/>
+<parameter name="groups" mode="IN"/>
+</operation>
+
+<operation name="changePassword">
+<parameter name="userId" mode="IN"/>
+<parameter name="userPreviousPassword" mode="IN"/>
+<parameter name="userNewPassword" mode="IN"/>
+</operation>
+
+<operation name="getUserDetail">
+<parameter name="userId" mode="IN"/>
+<parameter name="user" mode="OUT"/>
+<parameter name="allGroups" mode="OUT"/>
+</operation>
+
+<operation name="getAllCustomers">
+<parameter name="statusCustomers" mode="IN"/>
+<parameter name="allUsers" mode="OUT"/>
+</operation>
+
+<operation name="searchLogActivity">
+<parameter name="activityLog" mode="IN"/>
+<parameter name="listActivity" mode="OUT"/>
+</operation>
+
+<operation name="searchAggregateAllActivities">
+<parameter name="activityLog" mode="IN"/>
+<parameter name="aggregateActivityList" mode="OUT"/>
+</operation>
+
+<operation name="searchBlackListTrans">
+<parameter name="fromDate" mode="IN"/>
+<parameter name="toDate" mode="IN"/>
+<parameter name="fromTime" mode="IN"/>
+<parameter name="toTime" mode="IN"/>
+<parameter name="pan" mode="IN"/>
+<parameter name="stan" mode="IN"/>
+<parameter name="rrn" mode="IN"/>
+<parameter name="transactionLogList" mode="OUT"/>
+</operation>
+
+<operation name="searchPanInformation">
+ <parameter name="pan" mode="IN"/>
+ <parameter name="cardInfo" mode="OUT"/>
+</operation>
+
+<operation name="getTransForMonitoring">
+ <parameter name="lastLogId" mode="IN"/>
+ <parameter name="transactionLogList" mode="OUT"/>
+</operation>
+
+<operation name="getDBCurrentDateTime">
+<parameter name="currentDateTime" mode="OUT"/>
+</operation>
+
+<operation name="getMaxLogId">
+<parameter name="maxLogId" mode="OUT"/>
+</operation>
+
+<operation name="searchBlackList">
+<parameter name="fromDate" mode="IN"/>
+<parameter name="toDate" mode="IN"/>
+<parameter name="pan" mode="IN"/>
+<parameter name="activeFlag" mode="IN"/>
+<parameter name="list" mode="OUT"/>
+</operation>
+
+<operation name="searchBlackReason">
+<parameter name="list" mode="OUT"/>
+</operation>
+
+<operation name="updateBlackList">
+<parameter name="blackList" mode="IN"/>
+</operation>
+
+<operation name="updateBlackListForLimitationCard">
+<parameter name="blackList" mode="IN"/>
+</operation>
+
+<operation name="addBlackList">
+<parameter name="blackList" mode="IN"/>
+</operation>
+
+<operation name="searchPanInBlackList">
+<parameter name="pan" mode="IN"/>
+<parameter name="blackList" mode="OUT"/>
+</operation>
+
+<operation name="inactivatePanInBlackList">
+<parameter name="pan" mode="IN"/>
+</operation>
+
+
+<operation name="getAllFlags">
+<parameter name="allFlags" mode="OUT"/>
+</operation>
+
+<beanMapping qname="myNS:Permissions" xmlns:myNS="urn:model.ambit.iac.com"
+languageSpecificType="java:com.iac.ambit.model.Permissions"/> 
+
+<beanMapping qname="myNS:Customer" xmlns:myNS="urn:model.ambit.iac.com"
+languageSpecificType="java:com.iac.ambit.model.Customer"/> 
+
+<beanMapping qname="myNS:Group" xmlns:myNS="urn:model.ambit.iac.com"
+languageSpecificType="java:com.iac.ambit.model.Group"/> 
+
+<beanMapping qname="myNS:ActivityLog" xmlns:myNS="urn:model.ambit.iac.com"
+languageSpecificType="java:com.iac.ambit.model.ActivityLog"/> 
+
+<beanMapping qname="myNS:TransactionLog" xmlns:myNS="urn:model.ambit.iac.com"
+languageSpecificType="java:com.iac.ambit.model.TransactionLog"/>
+
+<beanMapping qname="myNS:CardInfo" xmlns:myNS="urn:model.ambit.iac.com"
+languageSpecificType="java:com.iac.ambit.model.CardInfo"/>
+
+<beanMapping qname="myNS:BlackList" xmlns:myNS="urn:model.ambit.iac.com"
+languageSpecificType="java:com.iac.ambit.model.BlackList"/>
+
+<beanMapping qname="myNS:BlackedReason" xmlns:myNS="urn:model.ambit.iac.com"
+languageSpecificType="java:com.iac.ambit.model.BlackedReason"/>
+
+<beanMapping qname="myNS:CodeActiveFlag" xmlns:myNS="urn:model.ambit.iac.com"
+languageSpecificType="java:com.iac.ambit.model.CodeActiveFlag"/>
+
+<typeMapping
+        xmlns:ns="java.util.List"
+        qname="ns:List"
+        type="java:java.util.List"
+        serializer="org.apache.axis.encoding.ser.ArraySerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.ArrayDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+      
+ 
+<parameter name="allowedMethods" value="*" />  
+
+<parameter name="className" value="com.iac.ambit.webservice.SpringWSEndPoint" />
+
+
+</service><service name="Version" provider="java:RPC">  
+<parameter name="allowedMethods" value="getVersion" />  
+<parameter name="className" value="org.apache.axis.Version" />
+</service><transport name="http"> 
+<requestFlow>   
+<handler type="URLMapper" />   
+<handler type="java:org.apache.axis.handlers.http.HTTPAuthHandler" /> 
+</requestFlow>
+</transport><transport name="local"> 
+<responseFlow>   
+<handler type="LocalResponder" /> 
+</responseFlow>
+</transport>
+</deployment>

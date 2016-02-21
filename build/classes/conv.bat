@@ -1,0 +1,1 @@
+"D:\Program Files\Java\jdk1.5.0_10\bin\native2ascii.exe" ApplicationResources_fa_IR_xx.PROPERTIES ApplicationResources_fa_IR.properties
